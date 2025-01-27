@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/syles.css">
+
+    <title>Formulário - Projeto SESAP</title>
+</head>
+
+<body>
+    <main id="container">
+        <form id="register_form" autocomplete="off" enctype="multipart/form-data">
+            <div id="header_box">
+                <h1>Formulário</h1>
+            </div>
+
+            <div id="inputs">
+                <div id="simple_inputs">
+                    <div class="input_box">
+                        <label for="name">
+                            Nome completo:
+                        </label>
+                        <div class="input_field">
+                            <input type="text" name="name" id="name" required>
+                        </div>
+                    </div>
+
+                    <div class="input_box">
+                        <label for="email">
+                            E-mail:
+                        </label>
+                        <div class="input_field">
+                            <input type="email" name="email" id="email" required>
+                        </div>
+                    </div>
+
+                    <div class="input_box">
+                        <label for="phone">
+                            Telefone:
+                        </label>
+                        <div class="input_field">
+                            <input type="tel" name="phone" id="phone" required>
+                        </div>
+                    </div>
+
+                    <div class="input_box">
+                        <label for="desiredPosition">
+                            Cargo desejado:
+                        </label>
+                        <div class="input_field">
+                            <input type="text" name="desiredPosition" id="desiredPosition" required>
+                        </div>
+                    </div>
+
+                    <div class="input_box">
+                        <label for="education">
+                            Escolaridade:
+                        </label>
+                        <select id="education" name="education" required>
+                            <option value="">Selecione</option>
+                            <option value="COMPLETE_HIGH_SCHOOL">Ensino Médio (completo)</option>
+                            <option value="INCOMPLETE_HIGH_SCHOOL">Ensino Médio (incompleto)</option>
+                            <option value="COMPLETE_COLLEGE">Ensino Superior (completo)</option>
+                            <option value="INCOMPLETE_COLLEGE">Ensino Superior (incompleto)</option>
+                            <option value="TECHNICAL">Técnico</option>
+                            <option value="MASTERS">Mestrado</option>
+                            <option value="DOCTORATE">Doutorado</option>
+                        </select>
+                    </div>
+
+                    <div class="input_box">
+                        <label>
+                            Currículo:
+                        </label>
+
+                        <input type="file" id="file" name="file" accept=".doc,.docx,.pdf" required>
+                        <div id="file_input_box">
+                            <label for="file">Carregar .doc/.docx/.pdf</label>
+                        </div>
+
+                        <div id="file_name">
+                            Nenhum arquivo selecionado
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input_box">
+                    <label for="notes">
+                        Observações:
+                    </label>
+                    <div id="notes_input_field">
+                        <textarea id="notes" name="notes"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" id="send_button">
+                Enviar
+            </button>
+
+            <div id="custom_loader_box">
+                <div id="custom_loader"></div>
+            </div>
+        </form>
+    </main>
+
+    <script src="./js/script.js"></script>
+    <script src="https://kit.fontawesome.com/e8f60f12a8.js" crossorigin="anonymous"></script>
+
+</body>
+
+</html>

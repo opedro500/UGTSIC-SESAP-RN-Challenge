@@ -1,0 +1,224 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400&display=swap');
+
+:root {
+    --color-light-50: #dce1de;
+
+    --color-dark-50: #797984;
+    --color-dark-900: #000;
+
+    --color-green-50: #9cc0c5;
+    --color-green-100: #498ea0;
+    --color-green-200: #213e69;
+
+    --color-gradient: linear-gradient(90deg, var(--color-green-200), var(--color-green-100),
+            var(--color-green-50));
+}
+
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#container {
+    height: 100vh;
+    width: 100%;
+    background: var(--color-gradient);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+}
+
+#register_form {
+    background-color: var(--color-light-50);
+    display: flex;
+    flex-direction: column;
+    width: 680px;
+    max-width: 100%;
+    padding: 30px 40px;
+    border-radius: 8px;
+    gap: 30px;
+    box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.336);
+    height: fit-content;
+    animation: dark-to-light 0.1s ease-in-out;
+}
+
+#header_box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#header_box h1 {
+    font-size: 40px;
+    position: relative;
+}
+
+#header_box h1::before {
+    position: absolute;
+    content: '';
+    width: 28%;
+    background-color: var(--color-green-50);
+    height: 3px;
+    bottom: 10px;
+    border-radius: 5px;
+}
+
+#inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#simple_inputs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 250px));
+    justify-content: space-between;
+    column-gap: 40px;
+    row-gap: 20px;
+}
+
+.input_box {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.input_box > label {
+    font-size: 14px;
+    color: var(--color-dark-50);
+}
+
+.input_box select {
+    font-size: 14px;
+    padding: 3px;
+    border: none;
+    background-color: var(--color-light-50);
+    cursor: pointer;
+    border-bottom: 1px solid var(--color-green-50);
+}
+
+.input_box select:focus {
+    outline: none;
+}
+
+.input_field {
+    padding: 3px;
+    cursor: text;
+    border-bottom: 1px solid var(--color-green-50);
+}
+
+.input_field input {
+    border: none;
+    background-color: transparent;
+    width: 100%;
+    font-size: 18px;
+    padding: 0px 5px;
+}
+
+.input_field input:focus {
+    outline: none;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+#file_input_box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3px;
+}
+
+#file_input_box label {
+    background: var(--color-gradient);
+    color: var(--color-light-50);
+    padding: 7px;
+    font-size: 14px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#file_input_box label:hover {
+    transform: scale(1.05);
+}
+
+.input_box #file_name {
+    font-size: 13px;
+    color: var(--color-dark-50);
+    align-self: center;
+}
+
+#notes_input_field {
+    padding: 3px;
+    cursor: text;
+    border: 1px solid var(--color-green-50);
+}
+
+#notes_input_field textarea {
+    border: none;
+    background-color: transparent;
+    width: 100%;
+    height: 80px;
+    font-size: 15px;
+    padding: 0px 5px;
+    resize: none;
+}
+
+#notes_input_field textarea:focus {
+    outline: none;
+}
+
+#send_button {
+    border: none;
+    background: var(--color-gradient);
+    color: var(--color-light-50);
+    padding: 7px;
+    font-size: 18px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#send_button:hover {
+    transform: scale(1.05);
+}
+
+#custom_loader_box {
+    display: none;
+}
+
+#custom_loader_box.show {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#custom_loader {
+    width:25px;
+    height:25px;
+    border-radius:50%;
+    border:4px solid;
+    border-color: var(--color-green-50);
+    border-right-color: var(--color-dark-50);
+    animation:s2 1s infinite linear;
+}
+@keyframes s2 {to{transform: rotate(1turn)}}
+
+@media screen and (max-width: 560px) {
+    #simple_inputs {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width: 340px) {
+    #header_box {
+        flex-direction: column;
+        gap: 12px;
+    }
+}

@@ -1,0 +1,11 @@
+package com.sesap.UGTSIC.models;
+
+public enum Education {
+    INCOMPLETE_HIGH_SCHOOL,
+    COMPLETE_HIGH_SCHOOL,
+    INCOMPLETE_COLLEGE,
+    COMPLETE_COLLEGE,
+    TECHNICAL,
+    MASTERS,
+    DOCTORATE
+}
