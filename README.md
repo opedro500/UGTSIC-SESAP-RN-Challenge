@@ -41,8 +41,6 @@ CREATE SCHEMA projeto_sesap;
 
 3. Certifique-se de que tem um usuário do MySQL configurado com permissões adequadas para este schema.
 
----
-
 ### 3. Configurar o Arquivo `application.properties`
 
 Abra o arquivo de configuração do Spring localizado em `src/main/resources/application.properties` e ajuste os seguintes parâmetros para o seu ambiente:
@@ -74,10 +72,9 @@ Se tudo estiver configurado corretamente, a aplicação estará disponível em:
 http://localhost:8080
 ```
 
----
+### 5. Lembretes:
 
-### 5. Conexão com o Banco de Dados
-
+- Os arquivos dos currículos (.pdf, .doc, .docx) enviados no formulário ficarão salvos na pasta 'uploads', localizada no diretório raíz do projeto clonado.
 - Certifique-se de que o projeto conseguiu se conectar ao banco de dados `projeto_sesap`.
 - Certifique-se de que a porta 3306 (padrão do MySQL) esteja acessível no seu ambiente.
 
