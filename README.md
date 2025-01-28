@@ -8,7 +8,7 @@ Este documento fornece instruções detalhadas para configurar e rodar o projeto
 
 Antes de iniciar, certifique-se de ter os seguintes itens instalados:
 
-- **Java JDK 17** ou superior
+- **Java JDK 17**
 - **Apache Maven**
 - **MySQL** (Servidor de banco de dados)
 - **Git** (para clonar o repositório)
