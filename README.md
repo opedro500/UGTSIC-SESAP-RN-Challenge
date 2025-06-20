@@ -74,7 +74,7 @@ http://localhost:8080
 
 ### 5. Lembretes:
 
-- Os arquivos dos currículos (.pdf, .doc, .docx) enviados no formulário ficarão salvos na pasta 'uploads', localizada no diretório raíz do projeto clonado.
+- Os arquivos dos currículos (.pdf, .doc, .docx) enviados no formulário ficarão salvos na pasta 'uploads', ela será criada a partir do primeiro formulário enviado e ficará localizada no diretório raíz do projeto clonado.
 - Certifique-se de que o projeto conseguiu se conectar ao banco de dados `projeto_sesap`.
 - Certifique-se de que a porta 3306 (padrão do MySQL) esteja acessível no seu ambiente.
 
