@@ -31,15 +31,14 @@ public class CandidateController {
             String ipAddress = forwardedFor != null ? forwardedFor : request.getRemoteAddr();
             service.saveCandidate(candidateDTO, file, ipAddress);
 
-            response.put("mensagem", "Candidatura realizada com sucesso!");
+            response.put("mensagem", "Candidatura realizada!");
             return ResponseEntity.ok(response);
 
         } catch (IOException e) {
             response.put("mensagem", "Erro ao processar o arquivo: " + e.getMessage());
             return ResponseEntity.status(500).body(response);
-
-        } catch (MessagingException e) {
-            response.put("mensagem", "Erro interno ao processar a candidatura.");
+        } catch (Exception e) {
+            response.put("mensagem", "Ocorreu um erro interno no sistema. Tente novamente mais tarde.");
             return ResponseEntity.status(500).body(response);
         }
     }

@@ -47,10 +47,12 @@ registerForm.addEventListener('submit', async function (event) {
             body: formData
         });
 
+        const data = await response.json();
+
         if (response.ok) {
             Swal.fire({
                 title: 'Sucesso!',
-                text: 'Candidatura enviada com sucesso!',
+                text: data.mensagem,
                 icon: 'success',
                 confirmButtonColor: '#498ea0',
                 confirmButtonText: 'Concluir'
@@ -59,16 +61,14 @@ registerForm.addEventListener('submit', async function (event) {
                 fileNameDisplay.textContent = 'Nenhum arquivo selecionado';
             });
         } else {
-            const errorText = await response.text();
             Swal.fire({
                 title: 'Ops!',
-                text: 'Erro ao enviar candidatura: ' + errorText,
+                text: data.mensagem,
                 icon: 'error',
                 confirmButtonColor: '#498ea0'
             });
         }
     } catch (error) {
-        console.error('Erro de comunicação com o backend:', error);
         Swal.fire({
             title: 'Erro de Conexão',
             text: 'Erro ao conectar com o servidor. Verifique sua internet ou tente novamente mais tarde.',
