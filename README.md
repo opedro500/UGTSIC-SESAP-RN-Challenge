@@ -1,83 +1,95 @@
-# Desafio UGTSIC SESAP/RN
+# UGTSIC - Sistema de Cadastramento de Currículos
 
-Este documento fornece instruções detalhadas para configurar e rodar o projeto.
+Este é um sistema de cadastramento de currículos desenvolvido em Java com Spring Boot. A aplicação permite o registro de candidatos e envia automaticamente um e-mail de confirmação para o endereço cadastrado.
 
----
+O ambiente de desenvolvimento é totalmente baseado em contêineres, dispensando a instalação local de dependências como Java, Maven ou MySQL.
 
-## Requisitos
+## Pré-requisitos
 
-Antes de iniciar, certifique-se de ter os seguintes itens instalados:
+* [Docker Desktop](https://www.docker.com/products/docker-desktop) instalado e em execução.
+* [Git](https://git-scm.com/) instalado na sua máquina.
 
-- **Java JDK 21**
-- **Apache Maven**
-- **MySQL** (Servidor de banco de dados)
-- **Git** (para clonar o repositório)
+## Como rodar o projeto localmente
 
----
+### 1. Clonando o Repositório
 
-## Passo a Passo para Executar o Projeto
-
-### 1. Clonar o Repositório
-
-Baixe o código-fonte do projeto para a sua máquina:
+Abra o seu terminal, faça o clone do projeto e entre na pasta raiz:
 
 ```bash
-# Clonando o repositório
 git clone https://github.com/opedro500/UGTSIC-SESAP-RN-Challenge
-
-# Navegue até o diretório do projeto
 cd UGTSIC-SESAP-RN-Challenge
 ```
 
-### 2. Configurar o Banco de Dados MySQL
+### 2. Configuração do Ambiente
 
-1. Acesse o MySQL utilizando seu cliente preferido (CLI ou ferramenta gráfica).
+Antes de iniciar a aplicação, é necessário configurar as variáveis de ambiente referentes ao banco de dados e ao servidor de e-mail.
 
-2. Crie um schema chamado `projeto_sesap`:
+1. Na raiz do projeto, faça uma cópia do arquivo `.env.example` e renomeie-a para `.env`.
+2. Abra o arquivo `.env` e preencha as variáveis com os seus dados:
 
-```sql
-CREATE SCHEMA projeto_sesap;
+```env
+# Configurações da Base de Dados
+MYSQL_ROOT_PASSWORD=sua_senha_aqui
+MYSQL_DATABASE=projeto_sesap
+
+# Configurações de E-mail
+SPRING_MAIL_USERNAME=ugtsicsesaprnprojeto@gmail.com
+SPRING_MAIL_PASSWORD=insira_a_senha_de_app_aqui
 ```
 
-3. Certifique-se de que tem um usuário do MySQL configurado com permissões adequadas para este schema.
+> **Nota:** Para que o envio de e-mails funcione corretamente, utilize uma Senha de Aplicativo do Google correspondente à conta informada, ou solicite as credenciais ao administrador do repositório.
 
-### 3. Configurar o Arquivo `application.properties`
+### 3. Iniciando a Aplicação
 
-Abra o arquivo de configuração do Spring localizado em `src/main/resources/application.properties` e ajuste os seguintes parâmetros para o seu ambiente:
-
-```application.properties
-
-# Configurações do banco de dados
-
-spring.datasource.username=(Substitua pelo seu usuário do MySQL)
-spring.datasource.password=(Substitua pela sua senha do MySQL)
-
-```
-
-### 4. Compilar e Rodar o Projeto
-
-Use o Maven para compilar e executar o projeto:
+Ainda no terminal, na pasta raiz do projeto, execute:
 
 ```bash
-# Limpar e construir o projeto
-mvn clean install
-
-# Executar o projeto
-mvn spring-boot:run
+docker-compose up --build
 ```
 
-Se tudo estiver configurado corretamente, a aplicação estará disponível em:
-
-```
-http://localhost:8080
-```
-
-### 5. Lembretes:
-
-- Os arquivos dos currículos (.pdf, .doc, .docx) enviados no formulário ficarão salvos na pasta 'uploads', ela será criada a partir do primeiro formulário enviado e ficará localizada no diretório raíz do projeto clonado.
-- Certifique-se de que o projeto conseguiu se conectar ao banco de dados `projeto_sesap`.
-- Certifique-se de que a porta 3306 (padrão do MySQL) esteja acessível no seu ambiente.
+O Docker fará o download das imagens, compilará o código, inicializará o banco de dados e subirá a aplicação Spring Boot. Quando os logs no terminal indicarem que o Spring iniciou, acesse a aplicação no navegador através do endereço:
+**http://localhost:8080**
 
 ---
 
-**Autor:** Pedro José Cavalcanti Cabral
+## Acesso ao Banco de Dados
+
+O banco de dados e as tabelas são criados automaticamente na inicialização da aplicação. Para visualizar ou manipular os dados salvos, escolha uma das opções abaixo:
+
+### Opção A: Linha de Comando do Docker
+Como o banco já está rodando no Docker, você pode acessá-lo diretamente pelo terminal sem instalar nada:
+
+1. Abra uma nova janela de terminal.
+2. Liste os contêineres ativos para encontrar o nome exato do serviço de banco de dados:
+   ```bash
+   docker ps
+   ```
+3. Acesse o MySQL dentro do contêiner (substitua `<nome_do_container>` pelo nome listado no passo anterior):
+   ```bash
+   docker exec -it <nome_do_container> mysql -u root -p
+   ```
+4. Insira a senha definida no `.env` e execute suas consultas SQL:
+   ```sql
+   USE projeto_sesap;
+   SELECT * FROM candidates;
+   ```
+
+### Opção B: Interface Gráfica (DBeaver, MySQL Workbench)
+Se preferir usar um software de gerenciamento de banco de dados, crie uma nova conexão MySQL com os seguintes parâmetros:
+* **Host:** `localhost`
+* **Port:** `3309` *(Porta externa mapeada pelo Docker)*
+* **Username:** `root`
+* **Default Schema:** `projeto_sesap`
+* **Password:** *(A senha definida no seu arquivo .env)*
+
+## Como encerrar a aplicação
+
+Para parar a execução dos contêineres, pressione `Ctrl + C` no terminal em execução.
+
+Para remover os contêineres e a rede criada de forma limpa (os dados do banco continuarão salvos no volume local), execute:
+```bash
+docker-compose down
+```
+
+---
+**Desenvolvido por Pedro Cavalcanti** 📧 Contato: pedropjc500@gmail.com
