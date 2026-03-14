@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/selecao")
@@ -23,15 +25,22 @@ public class CandidateController {
                                                 @RequestParam("file") MultipartFile file,
                                                 @RequestHeader(value = "X-Forwarded-For", required = false) String forwardedFor,
                                                 HttpServletRequest request) {
+        Map<String, String> response = new HashMap<>();
+
         try {
             String ipAddress = forwardedFor != null ? forwardedFor : request.getRemoteAddr();
-
             service.saveCandidate(candidateDTO, file, ipAddress);
-            return ResponseEntity.ok("Candidatura realizada com sucesso!");
+
+            response.put("mensagem", "Candidatura realizada com sucesso!");
+            return ResponseEntity.ok(response);
+
         } catch (IOException e) {
-            return ResponseEntity.status(500).body("Erro ao processar o arquivo: " + e.getMessage());
+            response.put("mensagem", "Erro ao processar o arquivo: " + e.getMessage());
+            return ResponseEntity.status(500).body(response);
+
         } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            response.put("mensagem", "Erro interno ao processar a candidatura.");
+            return ResponseEntity.status(500).body(response);
         }
     }
 }

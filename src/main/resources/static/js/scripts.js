@@ -28,14 +28,18 @@ fileInput.addEventListener('change', () => {
     }
 });
 
-// JavaScript para botão de submit
+// JavaScript para botão de submit com SweetAlert2
 const registerForm = document.getElementById('register_form');
+const sendButton = document.getElementById('send_button'); // Pegando o botão de enviar
+const loaderBox = document.querySelector('#custom_loader_box');
+
 registerForm.addEventListener('submit', async function (event) {
     event.preventDefault();
 
     const formData = new FormData(this);
 
-    document.querySelector('#custom_loader_box').classList.add('show');
+    loaderBox.classList.add('show');
+    sendButton.style.display = 'none';
 
     try {
         const response = await fetch('/selecao/candidatar', {
@@ -44,15 +48,35 @@ registerForm.addEventListener('submit', async function (event) {
         });
 
         if (response.ok) {
-            alert('Candidatura enviada com sucesso!');
+            Swal.fire({
+                title: 'Sucesso!',
+                text: 'Candidatura enviada com sucesso!',
+                icon: 'success',
+                confirmButtonColor: '#498ea0',
+                confirmButtonText: 'Concluir'
+            }).then(() => {
+                registerForm.reset();
+                fileNameDisplay.textContent = 'Nenhum arquivo selecionado';
+            });
         } else {
             const errorText = await response.text();
-            alert('Erro ao enviar candidatura: ' + errorText);
+            Swal.fire({
+                title: 'Ops!',
+                text: 'Erro ao enviar candidatura: ' + errorText,
+                icon: 'error',
+                confirmButtonColor: '#498ea0'
+            });
         }
     } catch (error) {
         console.error('Erro de comunicação com o backend:', error);
-        alert('Erro ao enviar candidatura, tente novamente.');
+        Swal.fire({
+            title: 'Erro de Conexão',
+            text: 'Erro ao conectar com o servidor. Verifique sua internet ou tente novamente mais tarde.',
+            icon: 'warning',
+            confirmButtonColor: '#498ea0'
+        });
+    } finally {
+        loaderBox.classList.remove('show');
+        sendButton.style.display = 'block';
     }
-
-    document.querySelector('#custom_loader_box').classList.remove('show');
 });

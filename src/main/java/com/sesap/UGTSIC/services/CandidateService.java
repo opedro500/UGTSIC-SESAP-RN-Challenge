@@ -16,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Service
 public class CandidateService {
@@ -36,7 +37,7 @@ public class CandidateService {
         CandidateModel candidateModel = mapToCandidateModel(candidateDTO, filePath.toString(), ipAddress);
         CandidateModel savedCandidate = repository.save(candidateModel);
 
-        sendConfirmationEmail(candidateDTO, filePath, ipAddress);
+        sendConfirmationEmail(candidateModel, filePath, ipAddress);
 
         return savedCandidate;
     }
@@ -67,32 +68,42 @@ public class CandidateService {
 
     private CandidateModel mapToCandidateModel(CandidateDTO candidateDTO, String filePath, String ipAddress) {
         CandidateModel candidateModel = new CandidateModel();
-        candidateModel.setName(candidateDTO.name());
+
+        String formattedName = candidateDTO.name() != null ? candidateDTO.name().trim().toUpperCase() : null;
+        String formattedDesiredPosition = candidateDTO.desiredPosition() != null ? candidateDTO.desiredPosition().trim().toUpperCase() : null;
+        String formattedNotes = candidateDTO.notes() != null ? candidateDTO.notes().trim() : null;
+
+        candidateModel.setName(formattedName);
+        candidateModel.setDesiredPosition(formattedDesiredPosition);
+        candidateModel.setNotes(formattedNotes);
+
         candidateModel.setEmail(candidateDTO.email());
         candidateModel.setPhone(candidateDTO.phone());
-        candidateModel.setDesiredPosition(candidateDTO.desiredPosition());
         candidateModel.setEducation(candidateDTO.education());
-        candidateModel.setNotes(candidateDTO.notes());
         candidateModel.setFilePath(filePath);
         candidateModel.setIpAddress(ipAddress);
         candidateModel.setSubmissionDate(LocalDateTime.now());
+
         return candidateModel;
     }
 
-    private void sendConfirmationEmail(CandidateDTO candidateDTO, Path filePath, String ipAddress) throws MessagingException {
+    private void sendConfirmationEmail(CandidateModel candidateModel, Path filePath, String ipAddress) throws MessagingException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'às' HH:mm");
+        String formattedDateTime = candidateModel.getSubmissionDate().format(formatter);
+
         String emailBody = String.format(
                 "Candidatura recebida com sucesso!\n\nNome: %s\nE-mail: %s\nTelefone: %s\nCargo Desejado: %s\nEscolaridade: %s\nIP: %s\nData/Hora: %s",
-                candidateDTO.name(),
-                candidateDTO.email(),
-                candidateDTO.phone(),
-                candidateDTO.desiredPosition(),
-                translateEducationToPortuguese(candidateDTO.education()),
+                candidateModel.getName(),
+                candidateModel.getEmail(),
+                candidateModel.getPhone(),
+                candidateModel.getDesiredPosition(),
+                translateEducationToPortuguese(candidateModel.getEducation()),
                 ipAddress,
-                LocalDateTime.now()
+                formattedDateTime
         );
 
         emailService.sendEmailWithAttachment(
-                candidateDTO.email(),
+                candidateModel.getEmail(),
                 "Candidatura recebida com sucesso!",
                 emailBody,
                 filePath.toFile()
