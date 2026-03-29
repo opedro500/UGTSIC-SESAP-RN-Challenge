@@ -16,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 @Service
@@ -89,7 +90,10 @@ public class CandidateService {
 
     private void sendConfirmationEmail(CandidateModel candidateModel, Path filePath, String ipAddress) throws MessagingException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'às' HH:mm");
-        String formattedDateTime = candidateModel.getSubmissionDate().format(formatter);
+        String formattedDateTime = candidateModel.getSubmissionDate()
+                .atZone(ZoneId.of("UTC"))
+                .withZoneSameInstant(ZoneId.of("America/Sao_Paulo"))
+                .format(formatter);
 
         String emailBody = String.format(
                 "Candidatura recebida com sucesso!\n\nNome: %s\nE-mail: %s\nTelefone: %s\nCargo Desejado: %s\nEscolaridade: %s\nIP: %s\nData/Hora: %s",
